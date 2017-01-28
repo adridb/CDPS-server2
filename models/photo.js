@@ -37,7 +37,7 @@ exports.photos = {
 // Definición modelo de foto con sequelize
 //var photos_url = process.env.PHOTOS_URL || "http://localhost:8000"
 module.exports = function(sequelize, DataTypes){
-	return sequelize.define('Photos',
+	return sequelize.define('photos',
 							{ name: DataTypes.STRING,
 							  url: DataTypes.STRING
 							});

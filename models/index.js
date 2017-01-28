@@ -24,15 +24,15 @@ var sequelize = new Sequelize(url,
 var photos_url = process.env.PHOTOS_URL || "http://localhost:8000"
 
 // importar definición de la tabla de photo.js
-var Photos = sequelize.import(path.join(__dirname,'photo'));
+var photos = sequelize.import(path.join(__dirname,'photo'));
 
 
 // sequelize.sync() crea e inicializa tabla de preguntas en DB
 sequelize.sync().then(function() {
         // Ya se han creado las tablas necesarias.
-        return Photos.count().then(function (c) {
+        return photos.count().then(function (c) {
                     if (c === 0) {   // la tabla se inicializa solo si está vacía
-                        return Photos.bulkCreate([{name: 'Wood',url: photos_url + '/photos/photo1.jpg'},
+                        return photos.bulkCreate([{name: 'Wood',url: photos_url + '/photos/photo1.jpg'},
                                                   {name: 'Man',url: photos_url + '/photos/photo2.jpg'},
                                                   {name: 'Desktop',url: photos_url + '/photos/photo3.jpg'},
                                                   {name: 'Woman',url: photos_url + '/photos/photo4.jpg'},
@@ -50,4 +50,4 @@ sequelize.sync().then(function() {
     });
 
 
-exports.Photos = Photos; // exportar definición de tabla Quiz
+exports.photos = photos; // exportar definición de tabla Quiz

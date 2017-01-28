@@ -5,7 +5,7 @@ var models = require('../models');
 
 // Autoload de photo asociado a :photoId
 exports.load = function(req, res, next, photoId) {
-    models.Photos.findById(photoId)
+    models.photos.findById(photoId)
   		.then(function(photo) {
       		if (photo) {
         		req.photo = photo;
@@ -18,7 +18,7 @@ exports.load = function(req, res, next, photoId) {
 };
 // Devuelve una lista de las imagenes disponibles y sus metadatos
 exports.list = function (req, res,next) {
-models.Photos.findAll() // Busca la primera pregunta existente
+models.photos.findAll() // Busca la primera pregunta existente
 		.then(function(photos) {
 			if (photos) {
 				res.render('photos/index', {photos: photos});
@@ -32,14 +32,14 @@ models.Photos.findAll() // Busca la primera pregunta existente
 
 // Devuelve la vista del formulario para subir una nueva foto
 exports.new = function (req, res,next) {
-	var photo = models.Photos.build({name:"",url:""});
+	var photo = models.photos.build({name:"",url:""});
 	res.render('photos/new',{photo: photo});
 };
 
 // Devuelve la vista de visualización de una foto.
 // El campo photo.url contiene la url donde se encuentra el fichero de audio
 exports.show = function (req, res,next) {
-	models.Photos.findById(req.params.photoId) // Busca la primera pregunta existente
+	models.photos.findById(req.params.photoId) // Busca la primera pregunta existente
 		.then(function(photo) {
 			if (photo) {
 				res.render('photos/show', {photo: req.photo}); 
@@ -52,7 +52,7 @@ exports.show = function (req, res,next) {
 
 // Escribe una nueva foto en el registro de imagenes.
 exports.create = function (req, res,next) {
-	var photo = models.Photos.build({name:req.body.photo.name,
+	var photo = models.photos.build({name:req.body.photo.name,
 								    url: req.body.url});
 	//var photo = req.files.photo;
 	var id = Math.random().toString(36).substr(2, 10);
