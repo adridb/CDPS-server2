@@ -1,25 +1,25 @@
 var path = require('path');
 
-//cargar modelo orm	
+//cargar modelo orm 
 var Sequelize = require('sequelize');
 
 //usar bbdd Sqllite
 //var sequelize = new Sequelize(null,null,null,
-//	                   {dialect: "SqLite",storage: "cdpsserver.sqLite"});
+//                     {dialect: "SqLite",storage: "cdpsserver.sqLite"});
 
 //BBDD SQLite;
 var url,storage;
 if(!process.env.DATABASE_URL){
-	url = "sqlite:///";
-	storage = "cdpsserver.sqlite";
+  url = "sqlite:///";
+  storage = "cdpsserver.sqlite";
 } else {
-	url = process.env.DATABASE_URL;
-	storage = process.env.DATABASE_URL || "";
+  url = process.env.DATABASE_URL;
+  storage = process.env.DATABASE_URL || "";
 }
 var sequelize = new Sequelize(url,
-	                          {storage: storage,
-	                          	omitNull: true
-	                          });
+                            {storage: storage,
+                              omitNull: true
+                            });
 
 var photos_url = process.env.PHOTOS_URL || "http://localhost:8000"
 
@@ -31,13 +31,12 @@ var photos = sequelize.import(path.join(__dirname,'photo'));
 sequelize.sync().then(function() {
         // Ya se han creado las tablas necesarias.
         return photos.count().then(function (c) {
-                    if (c === 0) {   // la tabla se inicializa solo si está vacía
-                        return photos.bulkCreate([{name: 'Wood',url: photos_url + '/photos/photo1.jpg'},
-                                                  {name: 'Man',url: photos_url + '/photos/photo2.jpg'},
-                                                  {name: 'Desktop',url: photos_url + '/photos/photo3.jpg'},
-                                                  {name: 'Woman',url: photos_url + '/photos/photo4.jpg'},
-                                                  {name: 'People',url: photos_url + '/photos/photo5.jpg'}
-                                                  ])
+                    if (c === 0) { 
+                          photos.create({name: 'Man',url: photos_url + '/photos/photo2.jpg'})
+                          photos.create({name: 'Desktop',url: photos_url + '/photos/photo3.jpg'})
+                          photos.create({name: 'Woman',url: photos_url + '/photos/photo4.jpg'}) 
+                          photos.create({name: 'People',url: photos_url + '/photos/photo5.jpg'}) // la tabla se inicializa solo si está vacía
+                        return photos.create({name: 'Wood',url: photos_url + '/photos/photo1.jpg'})
                                    .then(function() {
                                         console.log('Base de datos inicializada con datos');
                                     });
@@ -51,3 +50,4 @@ sequelize.sync().then(function() {
 
 
 exports.photos = photos; // exportar definición de tabla Quiz
+
